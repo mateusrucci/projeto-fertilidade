@@ -6,8 +6,10 @@
 *.xls
 *.csv
 *.tsv
-*.json
 respostas_typebot*
+export*.json
+leads*.json
+base*.json
 dados/
 data/
 base/
@@ -20,6 +22,9 @@ exports/
 *.key
 credentials*
 secrets*
+
+# ─── Config local da sessão ───
+.claude/settings.local.json
 
 # ─── Sistema ───
 .DS_Store
