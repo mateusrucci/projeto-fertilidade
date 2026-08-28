@@ -1,0 +1,29 @@
+# ─── Dados pessoais sensíveis — NUNCA versionar ───
+# A base bruta do Typebot contém nome, telefone, e-mail e dados de saúde,
+# que a LGPD classifica como dado pessoal sensível (art. 5º, II · art. 11).
+# Ver risco R5 no README.md.
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.json
+respostas_typebot*
+dados/
+data/
+base/
+exports/
+
+# ─── Credenciais ───
+.env
+.env.*
+*.pem
+*.key
+credentials*
+secrets*
+
+# ─── Sistema ───
+.DS_Store
+Thumbs.db
+.venv/
+__pycache__/
+node_modules/

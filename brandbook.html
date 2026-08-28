@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Sistema Colo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400..700&display=swap">
+</head>
+<body>
+<style>
+:root{
+  --papel-0:#FDFBF7; --papel-50:#F7F2EA; --papel-100:#EFE7DA; --papel-200:#E2D6C4; --linha:#DCCFBC;
+  --tinta-900:#241E18; --tinta-700:#4A3F35; --tinta-500:#756658; --tinta-400:#7C736B;
+  --acolhe-50:#FDF3F1; --acolhe-100:#FAE5E0; --acolhe-200:#F4D3CC;
+  --verde-900:#12291F; --verde-800:#1B3A2C; --verde-700:#24503C; --verde-600:#2F6A4E;
+  --verde-400:#7AAF94; --verde-200:#A9C9B8; --verde-100:#D6E5DC; --verde-50:#EAF1EC;
+  --terra-700:#8C3D24; --terra-600:#A34328; --terra-500:#B54F30; --terra-400:#C97A5C;
+  --terra-300:#E1A78F; --terra-100:#F5DED3; --terra-50:#FBF0EA;
+  --dourado-700:#8F6A1F; --dourado-500:#C89B3C; --dourado-100:#F5E7C4;
+
+  color-scheme: light;
+
+  /* papéis semânticos da própria página — tema único, fundo branco */
+  --ground:#FFFFFF; --surface:var(--papel-50); --raised:#FFFFFF;
+  --rule:var(--linha); --rule-strong:var(--papel-200);
+  --fg:var(--tinta-900); --fg-2:var(--tinta-700); --fg-3:var(--tinta-500);
+  --brand:var(--verde-700); --brand-deep:var(--verde-900); --act:var(--terra-500);
+  --chip:var(--verde-50); --chip-fg:var(--verde-800);
+  --shadow:0 1px 2px rgba(36,30,24,.05),0 8px 24px rgba(36,30,24,.06);
+
+  --display:'Fraunces','Lora',Georgia,serif;
+  --text:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--fg);
+  font-family:var(--text); font-size:16px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display); font-weight:600; line-height:1.14; text-wrap:balance; margin:0}
+p{margin:0}
+a{color:var(--brand)}
+:focus-visible{outline:2px solid var(--act); outline-offset:3px; border-radius:2px}
+
+/* ---------- shell ---------- */
+.shell{display:grid; grid-template-columns:minmax(0,1fr); max-width:1240px; margin:0 auto; padding:0 20px}
+@media(min-width:1000px){
+  .shell{grid-template-columns:216px minmax(0,1fr); gap:56px; padding:0 32px}
+}
+.rail{display:none}
+@media(min-width:1000px){
+  .rail{display:block; position:sticky; top:0; align-self:start; height:100vh; padding:40px 0; overflow-y:auto}
+}
+.rail-mark{font-family:var(--display); font-size:20px; letter-spacing:-.01em; margin-bottom:4px}
+.rail-sub{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--fg-3); margin-bottom:28px}
+.rail ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px}
+.rail a{
+  display:grid; grid-template-columns:22px 1fr; gap:8px; align-items:baseline;
+  text-decoration:none; color:var(--fg-2); font-size:13.5px; padding:5px 8px 5px 0;
+  border-radius:3px; transition:color .15s, background .15s;
+}
+.rail a:hover{color:var(--fg); background:var(--surface)}
+.rail a i{font-style:normal; font-size:11px; color:var(--fg-3); font-variant-numeric:tabular-nums}
+
+main{padding:40px 0 96px; min-width:0}
+
+/* ---------- hero ---------- */
+.hero{border-bottom:1px solid var(--rule); padding-bottom:44px; margin-bottom:8px}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:9px; font-size:11px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--fg-3); margin-bottom:22px;
+}
+.eyebrow b{
+  font-weight:600; color:var(--chip-fg); background:var(--chip);
+  padding:3px 9px; border-radius:999px; letter-spacing:.09em;
+}
+.hero h1{font-size:clamp(3rem,10vw,5.75rem); font-variation-settings:'SOFT' 40,'opsz' 144; letter-spacing:-.025em}
+.hero .lede{
+  font-size:clamp(1.05rem,2.3vw,1.3rem); color:var(--fg-2); max-width:60ch; margin-top:22px;
+}
+.hero .lede em{font-style:normal; color:var(--fg); font-weight:500}
+
+/* ---------- sections ---------- */
+section{padding:56px 0; border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+.sec-head{display:flex; gap:14px; align-items:baseline; margin-bottom:8px}
+.sec-num{
+  font-family:var(--text); font-size:11px; font-weight:600; letter-spacing:.1em;
+  color:var(--fg-3); font-variant-numeric:tabular-nums; padding-top:6px;
+}
+.sec-head h2{font-size:clamp(1.6rem,3.6vw,2.15rem); font-variation-settings:'SOFT' 30; letter-spacing:-.012em}
+.sec-intro{color:var(--fg-2); max-width:66ch; margin:14px 0 32px; font-size:1.02rem}
+.sec-intro + .sec-intro{margin-top:-18px}
+
+/* ---------- palette ---------- */
+.fam{margin-bottom:34px}
+.fam-h{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:12px}
+.fam-h h3{font-size:1.05rem; font-variation-settings:'SOFT' 30}
+.fam-h span{font-size:13px; color:var(--fg-3)}
+.ramp{display:grid; grid-template-columns:repeat(auto-fit,minmax(112px,1fr)); gap:1px; border-radius:4px; overflow:hidden; border:1px solid var(--rule); background:var(--rule)}
+.sw{padding:16px 12px 13px; min-height:112px; display:flex; flex-direction:column; justify-content:space-between}
+.sw b{font-size:11.5px; font-weight:600; letter-spacing:.02em; opacity:.86}
+.sw code{font-family:var(--text); font-size:12px; font-variant-numeric:tabular-nums; opacity:.7; letter-spacing:.01em}
+.sw .star{font-size:10px; letter-spacing:.1em; text-transform:uppercase; opacity:.9; font-weight:600}
+
+/* ---------- contrast table ---------- */
+.tablewrap{overflow-x:auto; border:1px solid var(--rule); border-radius:6px; background:var(--surface)}
+table{width:100%; border-collapse:collapse; font-size:14px; min-width:520px}
+th,td{text-align:left; padding:11px 16px; border-bottom:1px solid var(--rule)}
+th{font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-3); font-weight:600}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums; font-weight:600; text-align:right; width:1%; white-space:nowrap}
+.lvl{font-size:10.5px; font-weight:700; letter-spacing:.06em; padding:2px 7px; border-radius:3px; background:var(--chip); color:var(--chip-fg)}
+.chip-demo{display:inline-block; padding:3px 10px; border-radius:3px; font-size:12.5px; font-weight:500; white-space:nowrap}
+
+/* ---------- type specimens ---------- */
+.spec{border:1px solid var(--rule); border-radius:6px; overflow:hidden; margin-bottom:20px; background:var(--surface)}
+.spec-bar{
+  display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+  padding:9px 18px; border-bottom:1px solid var(--rule); font-size:11px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3);
+}
+.spec-bar b{color:var(--fg-2); font-weight:600}
+.spec-body{padding:26px 22px}
+.gl{font-family:var(--display); font-variation-settings:'SOFT' 40,'opsz' 144; font-size:clamp(2.6rem,8vw,4.5rem); line-height:1; letter-spacing:-.02em; margin-bottom:10px}
+.gl-sub{font-size:13px; color:var(--fg-3)}
+.scale-row{display:flex; align-items:baseline; gap:18px; padding:12px 0; border-bottom:1px dashed var(--rule)}
+.scale-row:last-child{border-bottom:0}
+.scale-row .lbl{flex:0 0 92px; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3); font-variant-numeric:tabular-nums}
+.scale-row .smp{min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+
+/* ---------- grifo ---------- */
+.grifo{
+  background:linear-gradient(to top, rgba(200,155,60,.42) 0%, rgba(200,155,60,.42) 44%, transparent 44%);
+  padding:0 2px; border-radius:1px;
+}
+
+/* ---------- generic grid ---------- */
+.grid2{display:grid; gap:20px; grid-template-columns:1fr}
+@media(min-width:760px){.grid2{grid-template-columns:1fr 1fr}}
+.grid3{display:grid; gap:16px; grid-template-columns:1fr}
+@media(min-width:700px){.grid3{grid-template-columns:repeat(3,1fr)}}
+
+.panel{border:1px solid var(--rule); border-radius:8px; padding:22px; background:var(--surface)}
+.panel h4{font-size:1rem; margin-bottom:10px; font-variation-settings:'SOFT' 30}
+.panel p{font-size:14.5px; color:var(--fg-2)}
+
+/* ---------- component demos: always in system's own light skin ---------- */
+.demo{
+  background:var(--papel-0); border:1px solid var(--papel-200); border-radius:8px;
+  padding:26px 22px; color:var(--tinta-900); box-shadow:var(--shadow);
+}
+.demo-tag{
+  font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-500);
+  margin-bottom:16px; display:block;
+}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-family:var(--text); font-size:16px; font-weight:600; border-radius:999px;
+  padding:15px 30px; border:1.5px solid transparent; cursor:pointer; text-decoration:none;
+  transition:background .15s, border-color .15s, color .15s;
+}
+.btn-1{background:var(--terra-500); color:#fff}
+.btn-1:hover{background:var(--terra-600)}
+.btn-2{background:transparent; color:var(--verde-700); border-color:var(--verde-700)}
+.btn-2:hover{background:var(--verde-50)}
+.btn-3{background:transparent; color:var(--verde-700); padding:12px 4px; text-decoration:underline; text-underline-offset:4px}
+.btnrow{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+
+.opt{
+  display:flex; align-items:center; gap:13px; width:100%; text-align:left;
+  padding:17px 18px; border:1.5px solid var(--papel-200); border-radius:12px;
+  background:#fff; font-family:var(--text); font-size:16px; color:var(--tinta-900);
+  cursor:pointer; margin-bottom:9px; transition:border-color .15s, background .15s;
+}
+.opt:hover{border-color:var(--verde-400)}
+.opt[aria-checked="true"]{border-color:var(--verde-700); background:var(--verde-50)}
+.opt .dot{width:20px; height:20px; border-radius:999px; border:1.5px solid var(--tinta-400); flex:0 0 auto; position:relative}
+.opt[aria-checked="true"] .dot{border-color:var(--verde-700); background:var(--verde-700); box-shadow:inset 0 0 0 3.5px #fff}
+
+.ficha{background:var(--verde-50); border:1px solid var(--verde-100); border-radius:12px; padding:20px}
+.ficha h5{font-family:var(--display); font-size:1.02rem; font-variation-settings:'SOFT' 30; margin:0 0 14px; color:var(--verde-800)}
+.ficha dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:7px 16px; font-size:14.5px}
+.ficha dt{color:var(--verde-800); opacity:.75}
+.ficha dd{margin:0; font-weight:600; color:var(--tinta-900)}
+
+.selo{
+  display:inline-flex; align-items:center; gap:10px; border:1px solid var(--verde-200);
+  background:#fff; border-radius:999px; padding:7px 15px 7px 8px; font-size:13px; color:var(--verde-800);
+}
+.selo .av{width:26px; height:26px; border-radius:999px; background:var(--verde-700); color:#fff;
+  display:grid; place-items:center; font-size:11px; font-weight:700; font-family:var(--text)}
+
+/* ---------- do / don't ---------- */
+.rules{display:grid; gap:16px; grid-template-columns:1fr}
+@media(min-width:760px){.rules{grid-template-columns:1fr 1fr}}
+.rule{border-radius:8px; padding:20px 22px; border:1px solid}
+.rule-no{background:var(--terra-50); border-color:var(--terra-100)}
+.rule-yes{background:var(--verde-50); border-color:var(--verde-100)}
+.rule h4{font-size:12px; letter-spacing:.11em; text-transform:uppercase; font-family:var(--text); font-weight:700; margin-bottom:14px}
+.rule-no h4{color:var(--terra-700)}
+.rule-yes h4{color:var(--verde-800)}
+.rule ul{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:7px}
+.rule li{font-size:13.5px; padding:5px 11px; border-radius:999px; background:rgba(255,255,255,.72); color:var(--tinta-900)}
+.rule-no li{color:var(--terra-700)}
+.rule-yes li{color:var(--verde-800)}
+
+/* ---------- applied mocks ---------- */
+.mocks{display:grid; gap:20px; grid-template-columns:1fr}
+@media(min-width:820px){.mocks{grid-template-columns:repeat(3,1fr)}}
+.mock{border-radius:10px; overflow:hidden; border:1px solid var(--rule); background:var(--surface)}
+.mock-cap{padding:10px 14px; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3); border-bottom:1px solid var(--rule)}
+.mock-body{padding:0}
+
+.ad{background:var(--papel-0); color:var(--tinta-900); padding:32px 24px 26px; min-height:300px; display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden}
+.ad .blob{position:absolute; width:230px; height:230px; border-radius:60% 40% 55% 45%/50% 55% 45% 50%; background:rgba(36,80,60,.10); right:-72px; top:-64px}
+.ad h3{font-size:1.72rem; font-variation-settings:'SOFT' 45; line-height:1.14; position:relative; letter-spacing:-.015em}
+.ad .k{font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--verde-400); position:relative; margin-bottom:16px}
+.ad .f{font-size:12.5px; color:var(--verde-200); position:relative; margin-top:20px}
+
+.quiz{background:var(--papel-0); padding:24px 20px; min-height:300px; color:var(--tinta-900)}
+.bar{height:5px; background:var(--papel-200); border-radius:999px; overflow:hidden; margin-bottom:20px}
+.bar i{display:block; height:100%; width:62%; background:var(--verde-600); border-radius:999px}
+.quiz h3{font-family:var(--display); font-size:1.24rem; font-variation-settings:'SOFT' 35; margin-bottom:16px; line-height:1.24}
+.quiz .step{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-500); margin-bottom:9px}
+.quiz .opt{padding:13px 15px; font-size:14.5px; margin-bottom:8px}
+
+.wa{background:var(--papel-100); padding:20px 16px; min-height:300px; display:flex; flex-direction:column; gap:10px; justify-content:center}
+.bal{background:#fff; border-radius:12px 12px 12px 3px; padding:13px 15px; font-size:14px; color:var(--tinta-900); max-width:88%; box-shadow:0 1px 1px rgba(36,30,24,.12)}
+.bal.me{align-self:flex-end; background:var(--verde-100); border-radius:12px 12px 3px 12px}
+.wacard{background:var(--papel-0); color:var(--tinta-900); border:1px solid var(--papel-200); border-radius:10px; padding:18px; max-width:88%}
+.wacard b{display:block; font-family:var(--display); font-size:1.05rem; font-variation-settings:'SOFT' 40; margin-bottom:10px}
+.wacard ol{margin:0; padding-left:18px; font-size:13px; color:var(--verde-200); display:flex; flex-direction:column; gap:5px}
+
+/* ---------- compliance ---------- */
+.block-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
+.block-list code{
+  font-family:var(--text); font-size:13px; padding:5px 12px; border-radius:5px;
+  background:var(--terra-50); color:var(--terra-700); border:1px solid var(--terra-100);
+  text-decoration:line-through; text-decoration-thickness:1.5px;
+}
+.note{
+  border-left:2px solid var(--act); padding:2px 0 2px 18px; margin-top:26px;
+  color:var(--fg-2); font-size:14.5px; max-width:64ch;
+}
+.foot{padding-top:40px; color:var(--fg-3); font-size:13px; display:flex; gap:8px; flex-wrap:wrap; justify-content:space-between}
+
+
+/* ---------- placeholders de layout (brand book: mostra estrutura, nao mensagem) ---------- */
+.ph{display:block; border-radius:3px; background:currentColor; opacity:.22}
+.ph.t{height:11px} .ph.d{height:22px} .ph.s{height:8px}
+.ph-stack{display:flex; flex-direction:column; gap:7px}
+.spec-list{list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; gap:7px; font-size:13.5px; color:var(--fg-2)}
+.spec-list li{display:grid; grid-template-columns:auto 1fr; gap:10px}
+.spec-list b{font-weight:600; color:var(--fg); font-variant-numeric:tabular-nums; white-space:nowrap}
+.glyphset{font-family:var(--display); font-variation-settings:'SOFT' 40; font-size:clamp(1.2rem,3.2vw,1.75rem); line-height:1.5; letter-spacing:.01em; word-spacing:.08em}
+.icon-row{display:flex; gap:20px; flex-wrap:wrap; align-items:center; margin-top:6px}
+.icon-row svg{width:28px; height:28px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+
+<div class="shell">
+  <nav class="rail" aria-label="Seções">
+    <div class="rail-mark">Colo</div>
+    <div class="rail-sub">Brand Book v0.3</div>
+    <ol>
+      <li><a href="#conceito"><i>01</i><span>Conceito</span></a></li>
+      <li><a href="#principios"><i>02</i><span>Princípios</span></a></li>
+      <li><a href="#cor"><i>03</i><span>Cor</span></a></li>
+      <li><a href="#contraste"><i>3.4</i><span>Contraste</span></a></li>
+      <li><a href="#psico"><i>3.5</i><span>Evidência</span></a></li>
+      <li><a href="#tipo"><i>04</i><span>Tipografia</span></a></li>
+      <li><a href="#forma"><i>05</i><span>Grid e forma</span></a></li>
+      <li><a href="#imagem"><i>06</i><span>Fotografia</span></a></li>
+      <li><a href="#grafica"><i>07</i><span>Linguagem gráfica</span></a></li>
+      <li><a href="#componentes"><i>08</i><span>Componentes</span></a></li>
+      <li><a href="#formatos"><i>09</i><span>Formatos</span></a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow"><span>Projeto Fertilidade</span> <b>Brand Book · v0.3</b></div>
+      <h1>Sistema Colo</h1>
+      <p class="lede"><em>Colo</em> — a palavra em português para o gesto de receber e sustentar alguém. O nome descreve a decisão que o sistema toma em toda bifurcação visual: <em>acolher antes de afirmar</em>.</p>
+    </header>
+
+    <section id="conceito">
+      <div class="sec-head"><span class="sec-num">01</span><h2>A regra de decisão visual</h2></div>
+      <p class="sec-intro">Onde a categoria escolhe entre parecer clínica — fria, institucional, azul — ou parecer delicada — rosa, floral, infantilizada — este sistema ocupa um terceiro lugar: <b>quente, adulto e organizado</b>. Toda escolha de design passa por uma pergunta:</p>
+      <p style="font-family:var(--display); font-variation-settings:'SOFT' 40; font-size:clamp(1.3rem,3.4vw,1.9rem); line-height:1.34; max-width:24ch; letter-spacing:-.012em">
+        A peça comunica <span class="grifo">atenção e método</span> — ou comunica o desfecho?
+      </p>
+      <div class="note">Comunicar o desfecho — bebê, positivo, barriga — é o erro estrutural da categoria. Comunicar atenção e método é o território deste sistema. Havendo dúvida entre duas opções visuais, vence a que parece examinada com cuidado.</div>
+    </section>
+
+    <section id="principios">
+      <div class="sec-head"><span class="sec-num">02</span><h2>Princípios</h2></div>
+      <div class="grid3" style="margin-top:26px">
+        <div class="panel">
+          <h4>Ela, não o desfecho</h4>
+          <p>Nenhum bebê, ultrassom, barriga, teste positivo ou berço — em nenhum formato. Regra inegociável, detalhada em Fotografia.</p>
+        </div>
+        <div class="panel">
+          <h4>Calor com método</h4>
+          <p>Credibilidade vem de parecer organizado, não de parecer hospital. O rigor vem da estrutura; o calor vem da cor.</p>
+        </div>
+        <div class="panel">
+          <h4>Sobreviver à degradação</h4>
+          <p>Parte da operação roda em canais que destroem design. O sistema precisa funcionar reduzido a estrutura e uma imagem quadrada.</p>
+        </div>
+      </div>
+      <div class="note">Somam-se dois princípios técnicos: <b>contido, não dramático</b> — nem euforia saturada, nem melodrama escuro; e <b>mobile é o projeto</b> — toda decisão é testada primeiro em 360px.</div>
+    </section>
+
+    <section id="cor">
+      <div class="sec-head"><span class="sec-num">03</span><h2>Cor</h2></div>
+      <p class="sec-intro">Quatro famílias, cada uma com um trabalho. <b>Papel</b> é o fundo de tudo — não branco, que sinaliza instituição clínica. <b>Verde</b> entrega credibilidade sem frieza. <b>Terracota</b> é a única cor que chama para a ação. <b>Acolhimento</b> é a superfície das seções afetivas.</p>
+      <p class="sec-intro">E uma ausência deliberada: <b>nenhum rosa</b> — decisão de posicionamento tomada <b>contra</b> a evidência psicológica, que aponta o rosa como o sinal mais forte de afeto disponível.</p>
+
+      <div class="fam">
+        <div class="fam-h"><h3>Papel</h3><span>fundos e superfícies · ~70%</span></div>
+        <div class="ramp">
+          <div class="sw" style="background:#FDFBF7;color:#241E18"><b>papel-0</b><div><span class="star">Fundo base</span><br><code>#FDFBF7</code></div></div>
+          <div class="sw" style="background:#F7F2EA;color:#241E18"><b>papel-50</b><code>#F7F2EA</code></div>
+          <div class="sw" style="background:#EFE7DA;color:#241E18"><b>papel-100</b><code>#EFE7DA</code></div>
+          <div class="sw" style="background:#E2D6C4;color:#241E18"><b>papel-200</b><code>#E2D6C4</code></div>
+          <div class="sw" style="background:#DCCFBC;color:#241E18"><b>linha</b><code>#DCCFBC</code></div>
+        </div>
+      </div>
+
+      <div class="fam">
+        <div class="fam-h"><h3>Tinta</h3><span>texto · nunca preto puro</span></div>
+        <div class="ramp">
+          <div class="sw" style="background:#241E18;color:#FDFBF7"><b>tinta-900</b><div><span class="star">Corpo</span><br><code>#241E18</code></div></div>
+          <div class="sw" style="background:#4A3F35;color:#FDFBF7"><b>tinta-700</b><code>#4A3F35</code></div>
+          <div class="sw" style="background:#756658;color:#FDFBF7"><b>tinta-500</b><code>#756658</code></div>
+          <div class="sw" style="background:#7C736B;color:#FDFBF7"><b>tinta-400</b><code>#7C736B</code></div>
+        </div>
+      </div>
+
+      <div class="fam">
+        <div class="fam-h"><h3>Verde</h3><span>marca e credibilidade · ~20%</span></div>
+        <div class="ramp">
+          <div class="sw" style="background:#12291F;color:#EAF1EC"><b>verde-900</b><code>#12291F</code></div>
+          <div class="sw" style="background:#1B3A2C;color:#EAF1EC"><b>verde-800</b><code>#1B3A2C</code></div>
+          <div class="sw" style="background:#24503C;color:#EAF1EC"><b>verde-700</b><div><span class="star">★ Institucional</span><br><code>#24503C</code></div></div>
+          <div class="sw" style="background:#2F6A4E;color:#EAF1EC"><b>verde-600</b><code>#2F6A4E</code></div>
+          <div class="sw" style="background:#7AAF94;color:#12291F"><b>verde-400</b><code>#7AAF94</code></div>
+          <div class="sw" style="background:#A9C9B8;color:#12291F"><b>verde-200</b><code>#A9C9B8</code></div>
+          <div class="sw" style="background:#D6E5DC;color:#12291F"><b>verde-100</b><code>#D6E5DC</code></div>
+          <div class="sw" style="background:#EAF1EC;color:#12291F"><b>verde-50</b><code>#EAF1EC</code></div>
+        </div>
+      </div>
+
+      <div class="fam">
+        <div class="fam-h"><h3>Terracota</h3><span>ação, e só ação · ~8%</span></div>
+        <div class="ramp">
+          <div class="sw" style="background:#8C3D24;color:#FBF0EA"><b>terra-700</b><code>#8C3D24</code></div>
+          <div class="sw" style="background:#A34328;color:#FBF0EA"><b>terra-600</b><code>#A34328</code></div>
+          <div class="sw" style="background:#B54F30;color:#FFFFFF"><b>terra-500</b><div><span class="star">★ Ação</span><br><code>#B54F30</code></div></div>
+          <div class="sw" style="background:#C97A5C;color:#241E18"><b>terra-400</b><code>#C97A5C</code></div>
+          <div class="sw" style="background:#E1A78F;color:#241E18"><b>terra-300</b><code>#E1A78F</code></div>
+          <div class="sw" style="background:#F5DED3;color:#241E18"><b>terra-100</b><code>#F5DED3</code></div>
+          <div class="sw" style="background:#FBF0EA;color:#241E18"><b>terra-50</b><code>#FBF0EA</code></div>
+        </div>
+      </div>
+
+      <div class="fam">
+        <div class="fam-h"><h3>Acolhimento</h3><span>superfície quente e afetiva · nunca ação</span></div>
+        <div class="ramp">
+          <div class="sw" style="background:#FDF3F1;color:#241E18"><b>acolhe-50</b><div><span class="star">Seção</span><br><code>#FDF3F1</code></div></div>
+          <div class="sw" style="background:#FAE5E0;color:#241E18"><b>acolhe-100</b><div><span class="star">Card</span><br><code>#FAE5E0</code></div></div>
+          <div class="sw" style="background:#F4D3CC;color:#241E18"><b>acolhe-200</b><code>#F4D3CC</code></div>
+        </div>
+      </div>
+
+      <div class="fam" style="margin-bottom:0">
+        <div class="fam-h"><h3>Dourado</h3><span>marcação e destaque · ~2%, raríssimo</span></div>
+        <div class="ramp">
+          <div class="sw" style="background:#8F6A1F;color:#FDFBF7"><b>dourado-700</b><div><span class="star">único como texto</span><br><code>#8F6A1F</code></div></div>
+          <div class="sw" style="background:#C89B3C;color:#241E18"><b>dourado-500</b><code>#C89B3C</code></div>
+          <div class="sw" style="background:#F5E7C4;color:#241E18"><b>dourado-100</b><code>#F5E7C4</code></div>
+        </div>
+      </div>
+
+      <div class="note">Proporção alvo: <b>~70% papel · ~20% verde · ~8% terracota · ~2% dourado</b>. A família acolhimento substitui o papel pontualmente, não soma. Se não é clicável, não é terracota — uma tela, uma ação.</div>
+    </section>
+
+    <section id="contraste">
+      <div class="sec-head"><span class="sec-num">3.4</span><h2>Contraste, calculado</h2></div>
+      <p class="sec-intro">Os 26 pares do sistema foram calculados, não estimados. <b>Todos passam em WCAG 2.1 AA</b>, a maioria em AAA. Três tokens foram corrigidos durante a validação — a terracota original reprovava com 4.36, o cinza de borda com 2.68 e o dourado com 3.55.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Uso</th><th>Amostra</th><th style="text-align:right">Ratio</th><th>Nível</th></tr></thead>
+          <tbody>
+            <tr><td>Texto principal</td><td><span class="chip-demo" style="background:#FDFBF7;color:#241E18">tinta-900 sobre papel-0</span></td><td class="n">15.95</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Texto de apoio</td><td><span class="chip-demo" style="background:#FDFBF7;color:#756658">tinta-500 sobre papel-0</span></td><td class="n">5.35</td><td><span class="lvl">AA</span></td></tr>
+            <tr><td><b>Ação primária</b></td><td><span class="chip-demo" style="background:#B54F30;color:#fff">branco sobre terra-500</span></td><td class="n">5.09</td><td><span class="lvl">AA</span></td></tr>
+            <tr><td>Ação hover</td><td><span class="chip-demo" style="background:#A34328;color:#fff">branco sobre terra-600</span></td><td class="n">6.19</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Botão institucional</td><td><span class="chip-demo" style="background:#24503C;color:#fff">branco sobre verde-700</span></td><td class="n">9.18</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Bloco escuro</td><td><span class="chip-demo" style="background:#12291F;color:#FDFBF7">papel-0 sobre verde-900</span></td><td class="n">14.91</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Texto claro s/ escuro</td><td><span class="chip-demo" style="background:#12291F;color:#7AAF94">verde-400 sobre verde-900</span></td><td class="n">6.15</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Bloco de destaque</td><td><span class="chip-demo" style="background:#EAF1EC;color:#1B3A2C">verde-800 sobre verde-50</span></td><td class="n">10.84</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Texto em acolhimento</td><td><span class="chip-demo" style="background:#FDF3F1;color:#241E18">tinta-900 sobre acolhe-50</span></td><td class="n">15.12</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Card afetivo</td><td><span class="chip-demo" style="background:#FAE5E0;color:#1B3A2C">verde-800 sobre acolhe-100</span></td><td class="n">10.28</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Aviso suave</td><td><span class="chip-demo" style="background:#FBF0EA;color:#8C3D24">terra-700 sobre terra-50</span></td><td class="n">6.68</td><td><span class="lvl">AAA</span></td></tr>
+            <tr><td>Dourado como texto</td><td><span class="chip-demo" style="background:#FDFBF7;color:#8F6A1F">dourado-700 sobre papel-0</span></td><td class="n">4.78</td><td><span class="lvl">AA</span></td></tr>
+            <tr><td>Borda de input · ícone</td><td><span class="chip-demo" style="background:#FDFBF7;color:#7C736B;border:1.5px solid #7C736B">tinta-400 sobre papel-0</span></td><td class="n">4.49</td><td><span class="lvl">alvo 3.0</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Qualquer ajuste de cor exige rodar o teste de novo. O script trava a build no CI.</div>
+    </section>
+
+    <section id="psico">
+      <div class="sec-head"><span class="sec-num">3.5</span><h2>A evidência por trás da paleta</h2></div>
+      <p class="sec-intro">A revisão sistemática mais completa sobre cor e emoção — <b>132 estudos, 42.266 participantes, 64 países</b> — conclui que não se sabe se <i>sentimos</i> as cores, mas se sabe que elas <i>comunicam</i> emoções. Cor é sistema de sinalização, não alavanca emocional.</p>
+
+      <h3 style="font-size:1.05rem;font-variation-settings:'SOFT' 30;margin:30px 0 6px">Os dois eixos que pesam mais do que o matiz</h3>
+      <p class="sec-intro" style="margin-bottom:20px">Luminosidade e saturação explicam mais variância na resposta emocional do que a cor escolhida. O quadrante inferior direito é onde paletas “sóbrias” perdem autoridade — e é por isso que dessaturar tudo em nome da calma sai caro.</p>
+      <div class="tablewrap" style="background:transparent;border:0">
+        <table style="min-width:460px;border:1px solid var(--rule);border-radius:6px;overflow:hidden">
+          <thead><tr><th></th><th>Claro</th><th>Escuro</th></tr></thead>
+          <tbody>
+            <tr>
+              <th style="vertical-align:middle">Saturado</th>
+              <td style="background:#FBF0EA"><b style="color:#8C3D24">positivo · ação</b><br><span style="font-size:12.5px;color:#8C3D24">terra-500</span></td>
+              <td style="background:#EAF1EC"><b style="color:#1B3A2C">poder · autoridade</b><br><span style="font-size:12.5px;color:#24503C">verde-700</span></td>
+            </tr>
+            <tr>
+              <th style="vertical-align:middle">Dessaturado</th>
+              <td style="background:#FDF3F1"><b style="color:#241E18">calmo · acolhedor</b><br><span style="font-size:12.5px;color:#756658">papel · acolhimento</span></td>
+              <td style="background:#4A3F35"><b style="color:#C9B9A2">apagado · triste</b><br><span style="font-size:12.5px;color:#A8998A">nenhuma cor do sistema</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size:1.05rem;font-variation-settings:'SOFT' 30;margin:38px 0 6px">Duas armadilhas que a pesquisa expôs</h3>
+      <div class="grid2" style="margin-top:16px">
+        <div class="panel" style="background:#EAF1EC;border-color:#D6E5DC">
+          <h4 style="color:#1B3A2C">Azul é também a cor da tristeza</h4>
+          <p style="color:#24503C">Azul aparece ligado à <b>tristeza em 52,5%</b> dos estudos — mais até do que a relaxamento (47,5%), e é a única cor fria também marcada como baixo poder. Argumento contra o azul clínico muito mais forte do que “é frio”.</p>
+        </div>
+        <div class="panel" style="background:#FBF0EA;border-color:#F5DED3">
+          <h4 style="color:#8C3D24">Marrom é a mais negativa das quentes</h4>
+          <p style="color:#8C3D24"><b>Nojo em 46%</b> dos estudos. Um sistema sobre papel quente passa perto dessa zona. Medimos: <code>tinta-400</code> estava dentro e foi corrigido. A regra — <b>papel só existe claro</b>. Escurecer o bege “para dar contraste” cruza a fronteira.</p>
+        </div>
+      </div>
+      <div class="note">Os padrões são universais (r = 0,88 entre 30 nações), mas a nacionalidade prevê associações acima do universal. Direção robusta, não lei local.</div>
+    </section>
+
+    <section id="tipo">
+      <div class="sec-head"><span class="sec-num">04</span><h2>Tipografia</h2></div>
+      <p class="sec-intro">O mercado brasileiro de saúde é monocultura de sans geométrica. Uma serifa quente diferencia estruturalmente — antes de qualquer outra decisão.</p>
+
+      <div class="spec">
+        <div class="spec-bar"><span><b>Fraunces</b> · display</span><span>variável · wght 300–700 · SOFT 30–50 · WONK 0</span></div>
+        <div class="spec-body">
+          <div class="gl">Aa Ãã Çç Éê</div>
+          <p class="glyphset" style="margin-bottom:14px">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 &amp; ÁÀÂÃÉÊÍÓÔÕÚÜÇ</p>
+          <p class="gl-sub">Serifa de tela com eixo <code>SOFT</code>, que arredonda os terminais e retira o peso institucional. Diacríticos do português desenhados, não sintetizados.</p>
+          <div style="margin-top:22px">
+            <div class="scale-row"><span class="lbl">display</span><span class="smp" style="font-family:var(--display);font-size:2.4rem;font-variation-settings:'SOFT' 40;letter-spacing:-.02em">Serifa de tela</span></div>
+            <div class="scale-row"><span class="lbl">h1</span><span class="smp" style="font-family:var(--display);font-size:1.85rem;font-variation-settings:'SOFT' 40">Serifa de tela</span></div>
+            <div class="scale-row"><span class="lbl">h2</span><span class="smp" style="font-family:var(--display);font-size:1.45rem;font-variation-settings:'SOFT' 30">Serifa de tela</span></div>
+            <div class="scale-row"><span class="lbl">h3</span><span class="smp" style="font-family:var(--display);font-size:1.15rem;font-weight:500">Serifa de tela</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec-bar"><span><b>Inter</b> · texto e UI</span><span>variável · 16px mínimo, sempre</span></div>
+        <div class="spec-body">
+          <p style="font-size:1.16rem;color:var(--fg-2);max-width:62ch;margin-bottom:16px">X-height alto e aberturas abertas — a sans mais confiável a 16px num Android de entrada. Inter ser neutra é a função: a personalidade vem da Fraunces, a legibilidade vem daqui.</p>
+          <div class="scale-row"><span class="lbl">lead 18–22</span><span class="smp">Parágrafo de abertura, com medida de 60 a 72 caracteres.</span></div>
+          <div class="scale-row"><span class="lbl">corpo 16</span><span class="smp" style="font-size:16px">Texto corrido, entrelinha 1,6. Nunca abaixo de 16px em nenhum formato.</span></div>
+          <div class="scale-row"><span class="lbl">apoio 14</span><span class="smp" style="font-size:14px;color:var(--fg-2)">Legenda, label de campo, metadado.</span></div>
+          <div class="scale-row"><span class="lbl">micro 12</span><span class="smp" style="font-size:12px;color:var(--fg-3)">Nota de rodapé, registro profissional, aviso legal.</span></div>
+          <div class="scale-row"><span class="lbl">tabular</span><span class="smp" style="font-variant-numeric:tabular-nums">0123456789 · 15.95 · 5.09 · 4.49 — dígitos alinham em coluna</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="forma">
+      <div class="sec-head"><span class="sec-num">05</span><h2>Grid, espaço e forma</h2></div>
+      <div class="grid2" style="margin-top:22px">
+        <div class="panel">
+          <h4>Espaço</h4>
+          <p>Grade de 8, com meio-passo de 4. Grupos irmãos espaçados com <code>gap</code> de flex ou grid — nunca com margem por elemento.</p>
+          <ul class="spec-list">
+            <li><b>4 · 8 · 12 · 16</b><span>micro-espaçamento e componentes</span></li>
+            <li><b>24 · 32 · 48</b><span>entre blocos</span></li>
+            <li><b>64 · 96</b><span>entre seções</span></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Raio</h4>
+          <p>A pílula é a forma da ação. Documentação e chrome usam geometria mais reta.</p>
+          <ul class="spec-list">
+            <li><b>8px</b><span>input, tag</span></li>
+            <li><b>12px</b><span>card</span></li>
+            <li><b>20px</b><span>bloco, modal</span></li>
+            <li><b>999px</b><span>ação e badge</span></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Elevação</h4>
+          <p>Sombra na cor da tinta, nunca preto puro — preto sobre papel quente vira cinza sujo.</p>
+          <ul class="spec-list">
+            <li><b>1</b><span>rgba(36,30,24,.06) — repouso</span></li>
+            <li><b>2</b><span>rgba(36,30,24,.07) — elevado</span></li>
+            <li><b>3</b><span>rgba(36,30,24,.10) — flutuante</span></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Larguras e toque</h4>
+          <ul class="spec-list" style="margin-top:0">
+            <li><b>680px</b><span>coluna de leitura</span></li>
+            <li><b>1120px</b><span>largura de conteúdo</span></li>
+            <li><b>360px</b><span>base de teste mobile</span></li>
+            <li><b>48px</b><span>alvo de toque mínimo</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="note">Movimento: entrada por fade + 8px de subida, 250ms, <code>cubic-bezier(.22,.61,.36,1)</code>. Sem escala, bounce ou rotação. Nada pisca, pulsa ou treme. <code>prefers-reduced-motion</code> desliga tudo.</div>
+    </section>
+
+    <section id="imagem">
+      <div class="sec-head"><span class="sec-num">06</span><h2>Fotografia</h2></div>
+      <p class="sec-intro">A regra mais importante do sistema, e a que mais vai ser questionada por quem chegar depois. Ela tem razão numérica, não estética.</p>
+      <div class="rules">
+        <div class="rule rule-no">
+          <h4>Nunca — em nenhum formato</h4>
+          <ul>
+            <li>bebê</li><li>recém-nascido</li><li>ultrassom</li><li>barriga de grávida</li><li>teste positivo</li><li>sapatinho</li><li>chupeta</li><li>berço</li><li>quarto de bebê</li><li>casal com filhos</li><li>cegonha</li><li>jaleco</li><li>estetoscópio</li><li>laboratório</li><li>pessoa chorando no escuro</li><li>rosa, em qualquer tom</li>
+          </ul>
+        </div>
+        <div class="rule rule-yes">
+          <h4>Sempre — ela e o mundo dela</h4>
+          <ul>
+            <li>ela, 30–45, brasileira</li><li>diversidade real de corpo e tom</li><li>luz natural de janela</li><li>mãos preparando alimento</li><li>verduras, chá, tempero</li><li>cozinha doméstica</li><li>caderno e mesa</li><li>expressão serena</li><li>a profissional em trabalho</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid2" style="margin-top:20px">
+        <div class="panel">
+          <h4>Tratamento</h4>
+          <p>Temperatura quente (+5 a +10), saturação levemente reduzida, sem filtro estourado, sem viradas de cor. Devem parecer fotografadas, não licenciadas de banco.</p>
+        </div>
+        <div class="panel">
+          <h4>Enquadramento</h4>
+          <p>Planos médios e detalhes. Evitar plano aberto vazio e retrato posado frontal. Espaço negativo generoso de um dos lados, para receber tipografia sem sobreposição.</p>
+        </div>
+      </div>
+      <div class="note">Jaleco e laboratório reconstroem o registro clínico do qual o sistema se diferencia. Pessoa chorando é exploração de dor. Rosa é o clichê da categoria.</div>
+    </section>
+
+    <section id="grafica">
+      <div class="sec-head"><span class="sec-num">07</span><h2>Linguagem gráfica</h2></div>
+      <div class="grid2" style="margin-top:22px">
+        <div class="panel">
+          <h4>Formas orgânicas</h4>
+          <p>Contorno curvo e irregular, sobreposto com transparência. Servem como fundo e respiro. Nunca representam anatomia, nunca competem com o texto — opacidade máxima de 20% atrás de conteúdo. Derivam do verde ou da terracota, nunca em cor cheia.</p>
+        </div>
+        <div class="panel">
+          <h4>Ícones</h4>
+          <p>Traço de 1,5px, terminais arredondados, grade de 24px, sem preenchimento. Cor herda do texto. Nunca ícone colorido, nunca emoji como elemento de interface.</p>
+          <div class="icon-row" style="color:var(--brand)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 11h8M8 15h5"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18c6 0 10-4 10-10"/><path d="M14 8h6v6"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px">
+        <h4>O grifo — dispositivo assinatura</h4>
+        <p style="margin-bottom:16px">Marcação em <code>dourado-500</code> a 35% de opacidade, cobrindo os <b>44% inferiores</b> da altura da linha, com terminais irregulares — marcação feita à mão. É o elemento mais característico do sistema: traduz visualmente a ideia de atenção individual.</p>
+        <p style="font-family:var(--display);font-size:1.3rem;font-variation-settings:'SOFT' 40;line-height:1.5;color:var(--fg)">O grifo marca <span class="grifo">uma única frase</span> por bloco de texto.</p>
+        <p style="margin-top:14px;font-size:13.5px;color:var(--fg-3)">Duas marcações anulam a primeira. Nunca sobre título — apenas em texto corrido ou lead.</p>
+      </div>
+    </section>
+
+    <section id="componentes">
+      <div class="sec-head"><span class="sec-num">08</span><h2>Componentes</h2></div>
+      <p class="sec-intro">Renderizados aqui na pele clara do sistema, que é como existem em produção. Rótulos são genéricos — o conteúdo não pertence a este documento.</p>
+      <div class="grid2">
+        <div class="demo">
+          <span class="demo-tag">Botão · uma tela, uma ação terracota</span>
+          <div class="btnrow">
+            <button class="btn btn-1">Ação primária</button>
+            <button class="btn btn-2">Ação secundária</button>
+          </div>
+          <div class="btnrow" style="margin-top:10px"><button class="btn btn-3">Ação terciária</button></div>
+          <ul class="spec-list" style="color:var(--tinta-500)">
+            <li><b>15/30px</b><span>padding · raio 999px · Inter 600 16px</span></li>
+            <li><b>48px</b><span>altura mínima de toque</span></li>
+          </ul>
+        </div>
+
+        <div class="demo">
+          <span class="demo-tag">Seletor de opção · alvo de 56px</span>
+          <div role="radiogroup" aria-label="Exemplo de seletor">
+            <button class="opt" role="radio" aria-checked="true"><span class="dot"></span> Opção selecionada</button>
+            <button class="opt" role="radio" aria-checked="false"><span class="dot"></span> Opção disponível</button>
+            <button class="opt" role="radio" aria-checked="false"><span class="dot"></span> Opção disponível</button>
+          </div>
+        </div>
+
+        <div class="demo">
+          <span class="demo-tag">Ficha · exibição de dados fornecidos pelo usuário</span>
+          <div class="ficha">
+            <h5>Título da ficha</h5>
+            <dl>
+              <dt>Campo</dt><dd>Valor</dd>
+              <dt>Campo</dt><dd>Valor</dd>
+              <dt>Campo</dt><dd>Valor</dd>
+              <dt>Campo</dt><dd>Valor</dd>
+            </dl>
+          </div>
+          <p style="font-size:13.5px;color:var(--tinta-500);margin-top:14px">Lista de definição em duas colunas. Fundo <code>acolhe-*</code> ou <code>verde-50</code>.</p>
+        </div>
+
+        <div class="demo">
+          <span class="demo-tag">Selo de credencial</span>
+          <div class="selo"><span class="av">—</span> <span><b>Nome</b> · Profissão · Registro</span></div>
+          <p style="font-size:13.5px;color:var(--tinta-500);margin-top:16px">Pílula contornada em <code>verde-200</code>, avatar de 26px.</p>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--papel-200)">
+            <span class="demo-tag" style="margin-bottom:10px">Bloco de destaque</span>
+            <div style="background:var(--verde-50);border-left:3px solid var(--verde-700);padding:14px 16px;border-radius:0 8px 8px 0;font-size:14.5px;color:var(--verde-800)">
+              Fundo <code>verde-50</code>, barra de 3px em <code>verde-700</code>, raio apenas à direita.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:1.05rem;font-variation-settings:'SOFT' 30;margin:34px 0 6px">Contratos de componente</h3>
+      <p class="sec-intro" style="margin-bottom:18px">Restrições estruturais da biblioteca, aplicadas em tempo de build.</p>
+      <div class="grid3">
+        <div class="panel"><h4>AntesDepois não existe</h4><p>Deliberadamente ausente da biblioteca. Não há como montar a peça com peças aprovadas.</p></div>
+        <div class="panel"><h4>Depoimento exige autorização</h4><p>A prop <code>autorizacaoId</code> é obrigatória. Sem ela, não renderiza.</p></div>
+        <div class="panel"><h4>NúmeroDeProva é token único</h4><p>Vem de um só arquivo, impedindo divergência entre formatos.</p></div>
+      </div>
+    </section>
+
+    <section id="formatos">
+      <div class="sec-head"><span class="sec-num">09</span><h2>Formatos</h2></div>
+      <p class="sec-intro">Especificações de layout. Os blocos abaixo mostram <b>estrutura e proporção</b>, não conteúdo.</p>
+      <div class="mocks">
+        <div class="mock">
+          <div class="mock-cap">Estático · 1080×1350 · variante papel</div>
+          <div class="mock-body">
+            <div class="ad">
+              <div class="blob" aria-hidden="true"></div>
+              <div style="position:relative;color:var(--tinta-900)">
+                <span class="ph s" style="width:38%;margin-bottom:16px"></span>
+                <div class="ph-stack" style="margin-top:14px">
+                  <span class="ph d" style="width:96%"></span>
+                  <span class="ph d" style="width:88%"></span>
+                  <span class="ph d" style="width:62%"></span>
+                </div>
+              </div>
+              <div style="position:relative;color:var(--tinta-500)"><span class="ph t" style="width:54%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="mock">
+          <div class="mock-cap">Quiz · base 360px</div>
+          <div class="mock-body">
+            <div class="quiz">
+              <div class="bar"><i></i></div>
+              <span class="ph s" style="width:34%;color:var(--tinta-900);margin-bottom:14px"></span>
+              <div class="ph-stack" style="color:var(--tinta-900);margin:14px 0 18px">
+                <span class="ph d" style="width:92%"></span>
+                <span class="ph d" style="width:64%"></span>
+              </div>
+              <div style="border:1.5px solid #7C736B;border-radius:8px;padding:15px"><span class="ph t" style="width:46%;color:var(--tinta-900)"></span></div>
+              <div style="background:var(--terra-500);border-radius:999px;padding:16px;margin-top:14px;text-align:center"><span class="ph t" style="width:52%;color:#fff;opacity:.75;margin:0 auto"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="mock">
+          <div class="mock-cap">Card quadrado · 1080×1080 · variante papel</div>
+          <div class="mock-body">
+            <div class="wa">
+              <div class="wacard" style="max-width:100%">
+                <span class="ph d" style="width:62%;color:var(--tinta-900);margin-bottom:14px"></span>
+                <div class="ph-stack" style="color:var(--verde-700);margin-top:12px">
+                  <span class="ph t" style="width:88%"></span>
+                  <span class="ph t" style="width:74%"></span>
+                  <span class="ph t" style="width:80%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tablewrap" style="margin-top:24px">
+        <table>
+          <thead><tr><th>Formato</th><th>Dimensão</th><th>Especificação</th></tr></thead>
+          <tbody>
+            <tr><td>Estático</td><td>1080×1350 · 1080×1080</td><td>Fundo papel-0 ou verde-900. Display ocupa 40–55% da altura. Margem de segurança 64px. Uma forma orgânica, canto superior direito</td></tr>
+            <tr><td>Vídeo</td><td>1080×1920</td><td>Legenda queimada, Inter 600, caixa verde-900 a 85%, terço inferior. Segurança 240px no topo, 320px na base</td></tr>
+            <tr><td>Quiz</td><td>base 360px</td><td>Uma pergunta por tela. Progresso fixo no topo. Alvos de 56px, coluna única. Ação em largura total, fixa na base</td></tr>
+            <tr><td>Página longa</td><td>coluna 680px</td><td>Blocos verde alternando com papel. Ação persistente após o primeiro terço. Peso &lt; 400 KB na primeira tela</td></tr>
+            <tr><td>Card quadrado</td><td>1080×1080</td><td>Formato de degradação. Só Ficha, DiagramaDoMétodo ou SeloDeCredencial. Tipografia mínima 32px</td></tr>
+            <tr><td>Impresso · PDF</td><td>A4</td><td>Papel de fundo, Fraunces nos títulos, Inter 11pt no corpo, cabeçalho verde-700. Precisa funcionar em monocromático</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Sistema Colo · Brand Book v0.3</span>
+      <span>Paleta validada: 26/26 pares em WCAG 2.1 AA</span>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
